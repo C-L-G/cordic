@@ -3,8 +3,8 @@ ______________                ______________
 ______________ \  /\  /|\  /| ______________
 ______________  \/  \/ | \/ | ______________
 --Module Name:  shift_sub.v
---Project Name: GitHub
---Data modified: 2015-09-18 17:42:58 +0800
+--Project Name: cordic
+--Data modified: 2015-09-21 10:51:22 +0800
 --author:Young-ÎâÃ÷
 --E-mail: wmy367@Gmail.com
 ****************************************/

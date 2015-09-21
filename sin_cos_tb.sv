@@ -3,8 +3,8 @@ ______________                ______________
 ______________ \  /\  /|\  /| ______________
 ______________  \/  \/ | \/ | ______________
 --Module Name:  sin_cos_tb.sv
---Project Name: GitHub
---Data modified: 2015-09-18 17:42:58 +0800
+--Project Name: cordic
+--Data modified: 2015-09-21 10:51:22 +0800
 --author:Young-ÎâÃ÷
 --E-mail: wmy367@Gmail.com
 ****************************************/
@@ -23,16 +23,29 @@ initial begin:INITIAL_CLOCK
 	clk_c0.run(10 , 1000/100 ,0);		//100	
 end
 
+localparam		ASIZE	= 16,
+				DSIZE	= 16,
+				RNUM	= 8;
+
+logic[ASIZE-1:0]	angle;
+
 sin_cos #(
-	.ASIZE		(8		),
-	.DSIZE      (8		),
-	.RNUM	    (8		)
+	.ASIZE		(ASIZE	),
+	.DSIZE      (DSIZE  ),
+	.RNUM	    (RNUM	)		// latency RUM + 4
 )sin_cos_tan(
 	.clock		(clock		),
-	.angle      (70*256/90  ),
+	.angle      (angle 		),
 	.sin        (           ),
 	.cos        (           )
 );  
+
+logic [6:0]		angle_num;
+
+always@(posedge clock)begin
+	angle_num	= $urandom_range(0,90);
+	angle		= angle_num*2**DSIZE/90;
+end
 
 
 

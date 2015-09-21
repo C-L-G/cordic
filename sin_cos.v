@@ -3,8 +3,8 @@ ______________                ______________
 ______________ \  /\  /|\  /| ______________
 ______________  \/  \/ | \/ | ______________
 --Module Name:  sin_cos.v
---Project Name: GitHub
---Data modified: 2015-09-18 17:42:58 +0800
+--Project Name: cordic
+--Data modified: 2015-09-21 10:51:22 +0800
 --author:Young-ÎâÃ÷
 --E-mail: wmy367@Gmail.com
 ****************************************/
@@ -25,23 +25,23 @@ localparam	RSIZE	= (RNUM > 16)? 16 : RNUM;
 
 // 0' < angle < 90'
 
-localparam		Angle_45		= 45*2**ASIZE		/90,			//atand(1/(2**0))*2**ASIZE
-				Angle_26		= 26.5651*2**ASIZE	/90,      //atand(1/(2**1))*2**ASIZE
-				Angle_14		= 14.0362*2**ASIZE	/90,      //atand(1/(2**2))*2**ASIZE
-				Angle_7			= 7.1250*2**ASIZE	/90,       //atand(1/(2**3))*2**ASIZE
-				Angle_3			= 3.5763*2**ASIZE	/90,       //atand(1/(2**4))*2**ASIZE
-				Angle_1_7899	= 1.7899*2**ASIZE	/90,       //atand(1/(2**5))*2**ASIZE
-				Angle_0_8952	= 0.8952*2**ASIZE	/90,       //atand(1/(2**6))*2**ASIZE
-				Angle_0_4476	= 0.4476*2**ASIZE	/90,       //atand(1/(2**7))*2**ASIZE
-				Angle_0_2238	= 0.2238*2**ASIZE	/90,       //atand(1/(2**8))*2**ASIZE
-				Angle_0_1119	= 0.1119*2**ASIZE	/90,
-				Angle_0_0560	= 0.0560*2**ASIZE	/90,
-				Angle_0_0280	= 0.0280*2**ASIZE	/90,    	
-                Angle_0_0140    = 0.0140*2**ASIZE	/90,
-                Angle_0_0070    = 0.0070*2**ASIZE	/90,
-                Angle_0_0035    = 0.0035*2**ASIZE	/90,
-                Angle_0_0017    = 0.0017*2**ASIZE	/90,
-                Angle_0_0009    = 0.0009*2**ASIZE	/90;
+localparam		Angle_45		= 45*2**     (1*ASIZE)	/90,			//atand(1/(2**0))*2**ASIZE
+				Angle_26		= 26.5651*2**(1*ASIZE)	/90,      //atand(1/(2**1))*2**ASIZE
+				Angle_14		= 14.0362*2**(1*ASIZE)	/90,      //atand(1/(2**2))*2**ASIZE
+				Angle_7			= 7.1250*2** (1*ASIZE)	/90,       //atand(1/(2**3))*2**ASIZE
+				Angle_3			= 3.5763*2** (1*ASIZE)	/90,       //atand(1/(2**4))*2**ASIZE
+				Angle_1_7899	= 1.7899*2** (1*ASIZE)	/90,       //atand(1/(2**5))*2**ASIZE
+				Angle_0_8952	= 0.8952*2** (1*ASIZE)	/90,       //atand(1/(2**6))*2**ASIZE
+				Angle_0_4476	= 0.4476*2** (1*ASIZE)	/90,       //atand(1/(2**7))*2**ASIZE
+				Angle_0_2238	= 0.2238*2** (1*ASIZE)	/90,       //atand(1/(2**8))*2**ASIZE
+				Angle_0_1119	= 0.1119*2** (1*ASIZE)	/90,
+				Angle_0_0560	= 0.0560*2** (1*ASIZE)	/90,
+				Angle_0_0280	= 0.0280*2** (1*ASIZE)	/90,    	
+                Angle_0_0140    = 0.0140*2** (1*ASIZE)	/90,
+                Angle_0_0070    = 0.0070*2** (1*ASIZE)	/90,
+                Angle_0_0035    = 0.0035*2** (1*ASIZE)	/90,
+                Angle_0_0017    = 0.0017*2** (1*ASIZE)	/90,
+                Angle_0_0009    = 0.0009*2** (1*ASIZE)	/90;
 
 wire [ASIZE-1:0]	ANGLE [16:0];
 
@@ -154,9 +154,15 @@ end
 end
 endgenerate
 
+reg [DSIZE+DSIZE:0]		X_reg,Y_reg;
 
-assign	cos	= x_shift_result[RSIZE-1][DSIZE-:DSIZE];
-assign	sin	= y_shift_result[RSIZE-1][DSIZE-:DSIZE];
+always@(posedge clock)begin
+	X_reg	<=  cos_coeff_result[RSIZE-1][DSIZE-1:0] *  x_shift_result[RSIZE-1][DSIZE-:(DSIZE+1)]; 
+	Y_reg	<=  cos_coeff_result[RSIZE-1][DSIZE-1:0] *  y_shift_result[RSIZE-1][DSIZE-:(DSIZE+1)]; 
+end
+
+assign	cos	= X_reg[DSIZE+DSIZE-1-:DSIZE];
+assign	sin	= Y_reg[DSIZE+DSIZE-1-:DSIZE];
 
 endmodule
 
