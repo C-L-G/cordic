@@ -3,8 +3,8 @@ ______________                ______________
 ______________ \  /\  /|\  /| ______________
 ______________  \/  \/ | \/ | ______________
 --Module Name:  cordic_sqrt.v
---Project Name: cordic
---Data modified: 2015-10-16 16:37:47 +0800
+--Project Name: sqrt
+--Data modified: 2015-10-19 10:37:36 +0800
 --author:Young-ÎâÃ÷
 --E-mail: wmy367@Gmail.com
 ****************************************/
@@ -39,7 +39,7 @@ assign	X[0]	= X0;
 assign	Y[0]	= Y0;
 assign	K[0]	= 2**DSIZE;
 
-hyperbola_radix4_ratation_monotone #(
+hyperbola_radix4_ratation_bothone #(
 	.DSIZE		(DSIZE+1		)
 )hyperbola_radix4_ratation_inst1(
 /*	input				*/	.clock		(clock			),
@@ -53,7 +53,7 @@ hyperbola_radix4_ratation_monotone #(
 /*	output[DSIZE-1:0]	*/	.next_K		(K   [1]		)
 );
 
-hyperbola_radix4_ratation_monotone #(
+hyperbola_radix4_ratation_bothone #(
 	.DSIZE		(DSIZE+1		)
 )hyperbola_radix4_ratation_inst2(
 /*	input				*/	.clock		(clock			),
@@ -67,7 +67,7 @@ hyperbola_radix4_ratation_monotone #(
 /*	output[DSIZE-1:0]	*/	.next_K		(K   [2]		)
 );
 
-hyperbola_radix4_ratation_monotone #(
+hyperbola_radix4_ratation_bothone #(
 	.DSIZE		(DSIZE+1		)
 )hyperbola_radix4_ratation_inst3(
 /*	input				*/	.clock		(clock			),
@@ -81,7 +81,7 @@ hyperbola_radix4_ratation_monotone #(
 /*	output[DSIZE-1:0]	*/	.next_K		(K   [3]		)
 );
 
-hyperbola_radix4_ratation_monotone #(
+hyperbola_radix4_ratation_bothone #(
 	.DSIZE		(DSIZE+1		)
 )hyperbola_radix4_ratation_inst4(
 /*	input				*/	.clock		(clock			),
